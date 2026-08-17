@@ -334,7 +334,7 @@ describe("usage status-line segment", () => {
 		const content = stripVTControlCharacters(result.content);
 
 		expect(result.visible).toBe(true);
-		expect(content).toContain("mo");
+		expect(content).toContain("月");
 		// Match Cursor web dashboard flooring (1.88 → 1%), not Math.round → 2%.
 		expect(content).toContain("1%");
 		expect(content).not.toContain("2%");
@@ -365,7 +365,7 @@ describe("usage status-line segment", () => {
 		await flushUsageRefresh();
 		const content = stripVTControlCharacters(component.getTopBorder(200).content);
 
-		expect(content).toContain("mo");
+		expect(content).toContain("月");
 		expect(content).toContain("13%");
 	});
 
@@ -395,7 +395,7 @@ describe("usage status-line segment", () => {
 		await flushUsageRefresh();
 		const content = stripVTControlCharacters(component.getTopBorder(200).content);
 
-		expect(content).toContain("mo");
+		expect(content).toContain("月");
 		expect(content).toContain("1%");
 		expect(content).not.toContain("90%");
 	});
@@ -439,7 +439,7 @@ describe("usage status-line segment", () => {
 		expect(content).toContain("12%");
 		expect(content).toContain("7d");
 		expect(content).toContain("8%");
-		expect(content).toContain("mo");
+		expect(content).toContain("月");
 		expect(content).toContain("42%");
 	});
 
@@ -458,7 +458,7 @@ describe("usage status-line segment", () => {
 		await flushUsageRefresh();
 		const content = stripVTControlCharacters(component.getTopBorder(200).content);
 
-		expect(content).not.toContain("mo");
+		expect(content).not.toContain("月");
 		expect(content).not.toContain("42%");
 	});
 

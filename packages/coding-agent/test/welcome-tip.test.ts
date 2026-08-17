@@ -30,7 +30,7 @@ describe("renderWelcomeTip", () => {
 
 		expect(plain).toContain("Try the shiny advisor");
 		expect(plain).not.toContain("[NEW]"); // literal marker stripped
-		expect(plain).toContain("NEW!"); // replaced by the visible tag
+		expect(plain).toContain("新!"); // replaced by the visible tag
 		expect(styled).toContain("\x1b[1m"); // tag is bold
 		expect(styled).not.toBe(plain); // tag carries SGR color escapes
 	});
@@ -43,7 +43,7 @@ describe("renderWelcomeTip", () => {
 			for (const line of lines) {
 				expect(visibleWidth(line)).toBeLessThanOrEqual(width);
 			}
-			expect(lines.map(l => Bun.stripANSI(l)).join("\n")).toContain("NEW!");
+			expect(lines.map(l => Bun.stripANSI(l)).join("\n")).toContain("新!");
 		}
 	});
 
@@ -59,7 +59,7 @@ describe("renderWelcomeTip", () => {
 	it("leaves tips without the marker untouched", () => {
 		const lines = renderWelcomeTip("Plain old tip", 60);
 		const plain = lines.map(line => Bun.stripANSI(line)).join("\n");
-		expect(plain).not.toContain("NEW!");
+		expect(plain).not.toContain("新!");
 		expect(plain).toContain("Tip: Plain old tip");
 	});
 

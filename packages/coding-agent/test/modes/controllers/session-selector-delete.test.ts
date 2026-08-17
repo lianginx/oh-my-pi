@@ -48,7 +48,7 @@ describe("SessionSelectorComponent delete confirmation", () => {
 		const selector = createSelector(onDelete);
 
 		selector.handleInput("\x1b[3~");
-		expect(renderText(selector)).toContain("Delete session?");
+		expect(renderText(selector)).toContain("删除会话？");
 		expect(renderText(selector)).toContain("Alpha");
 
 		selector.handleInput("\n");
@@ -59,7 +59,7 @@ describe("SessionSelectorComponent delete confirmation", () => {
 		expect(rendered).toContain("Error: disk failed");
 		expect(rendered).toContain("Alpha");
 		expect(rendered).toContain("Beta");
-		expect(rendered).not.toContain("Delete session?");
+		expect(rendered).not.toContain("删除会话？");
 	});
 
 	it("keeps the session visible when delete is canceled upstream", async () => {
@@ -98,7 +98,7 @@ describe("SessionSelectorComponent delete confirmation", () => {
 		// No search query typed yet — Backspace should mean "delete session",
 		// not "edit the (empty) search box".
 		selector.handleInput("\x7f");
-		expect(renderText(selector)).toContain("Delete session?");
+		expect(renderText(selector)).toContain("删除会话？");
 		expect(renderText(selector)).toContain("Alpha");
 
 		// Confirm.
@@ -125,7 +125,7 @@ describe("SessionSelectorComponent delete confirmation", () => {
 		const afterBackspace = renderText(selector);
 		// Deletion did not fire.
 		expect(onDelete).not.toHaveBeenCalled();
-		expect(afterBackspace).not.toContain("Delete session?");
+		expect(afterBackspace).not.toContain("删除会话？");
 		// The query was actually edited: "alpha" lost its trailing "a".
 		expect(afterBackspace).toContain("alph");
 		expect(afterBackspace).not.toContain("alpha");

@@ -530,7 +530,7 @@ describe("ErrorBannerComponent", () => {
 		const banner = new ErrorBannerComponent("Output blocked by content filtering policy");
 		const rendered = Bun.stripANSI(banner.render(120).join("\n"));
 		expect(rendered).toContain("Output blocked by content filtering policy");
-		expect(rendered).toContain("Dismissed when you send your next message.");
+		expect(rendered).toContain("发送下一条消息后此提示将消失。");
 	});
 
 	it("caps an oversized multi-line error to a few lines", () => {

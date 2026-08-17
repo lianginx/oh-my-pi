@@ -66,9 +66,9 @@ describe("pause screen", () => {
 			expect(lines.length).toBe(24);
 			const text = lines.map(stripAnsi).join("\n");
 			expect(text).toContain("P A U S E D");
-			expect(text).toContain("Main agent, subagents, and advisor");
-			expect(text).toContain("paused for 1:05");
-			expect(text).toContain("esc · enter · space — resume");
+			expect(text).toContain("主代理、子代理与顾问将在下一步暂停");
+			expect(text).toContain("已暂停 1:05");
+			expect(text).toContain("esc · enter · space — 恢复");
 			expect(text).toContain("█".repeat(5));
 		});
 
@@ -77,14 +77,14 @@ describe("pause screen", () => {
 			expect(lines.length).toBe(10);
 			const text = lines.map(stripAnsi).join("\n");
 			expect(text).toContain("▌▌ P A U S E D");
-			expect(text).toContain("paused for 0:03");
-			expect(text).toContain("esc to resume");
+			expect(text).toContain("已暂停 0:03");
+			expect(text).toContain("esc 恢复");
 			expect(text).not.toContain("█".repeat(5)); // no room for the big glyph
 		});
 
 		it("rolls the clock into hours past 60 minutes", () => {
 			const text = renderPauseScreen(80, 24, 3_725_000).map(stripAnsi).join("\n");
-			expect(text).toContain("paused for 1:02:05");
+			expect(text).toContain("已暂停 1:02:05");
 		});
 
 		it("displays the session name when provided in full mode", () => {
@@ -121,7 +121,7 @@ describe("pause screen", () => {
 
 			expect(agentPauseGate.paused).toBe(false);
 			expect(hiddenCount()).toBe(1);
-			expect(statuses.some(message => message.includes("Resumed after"))).toBe(true);
+			expect(statuses.some(message => message.includes("已恢复"))).toBe(true);
 		});
 
 		it("treats ctrl+c as resume, never as abort-and-stay-paused", async () => {

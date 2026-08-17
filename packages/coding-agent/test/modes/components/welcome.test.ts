@@ -67,6 +67,6 @@ describe("WelcomeComponent", () => {
 		const output = new WelcomeComponent("17.3.4", modelName, "opencode-go").render(55).join("\n");
 
 		expect(output).toContain(modelName);
-		expect(output).toContain("Recent sessions");
+		expect(output).toContain("最近会话");
 	});
 });

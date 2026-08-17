@@ -126,7 +126,7 @@ describe("multiselect settings (array-of-enum)", () => {
 	it("edits providers.webSearchExclude as an unordered toggle set", () => {
 		const comp = createSelector();
 		for (const ch of "excluded web search providers") comp.handleInput(ch);
-		expect(comp.render(120).join("\n")).toContain("none");
+		expect(comp.render(120).join("\n")).toContain("无");
 
 		comp.handleInput("\n");
 		comp.handleInput(" ");

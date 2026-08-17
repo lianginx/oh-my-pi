@@ -338,7 +338,7 @@ describe("AskDialogComponent", () => {
 		component.handleInput(TAB);
 
 		const output = render(component);
-		expect(output.toLowerCase()).toContain("unanswered");
+		expect(output.toLowerCase()).toContain("未回答");
 
 		// Enter on Submit
 		component.handleInput(ENTER);
@@ -393,7 +393,7 @@ describe("AskDialogComponent", () => {
 		await Promise.resolve();
 
 		expect(onPrompt).toHaveBeenCalledTimes(1);
-		expect(onPrompt.mock.calls[0][0]).toBe("Note for Option A: Choose one?");
+		expect(onPrompt.mock.calls[0][0]).toBe("备注：Option A Choose one?");
 
 		// Verify note is saved by submitting
 		component.handleInput(ENTER);
@@ -426,7 +426,7 @@ describe("AskDialogComponent", () => {
 		await Promise.resolve();
 
 		expect(onPrompt).toHaveBeenCalledTimes(1);
-		expect(onPrompt.mock.calls[0][0]).toBe("Note for Option A: Choose one?");
+		expect(onPrompt.mock.calls[0][0]).toBe("备注：Option A Choose one?");
 		// No prior note → prefill is undefined.
 		expect(onPrompt.mock.calls[0][1]).toBeUndefined();
 
@@ -539,7 +539,7 @@ describe("AskDialogComponent", () => {
 
 		component.handleInput(SPACE);
 		component.handleInput(SPACE);
-		expect(render(component)).not.toContain("✎ note");
+		expect(render(component)).not.toContain("✎ 备注");
 
 		// Select Option B and confirm from the Submit tab; the cleared note
 		// must not resurface.
@@ -622,7 +622,7 @@ describe("AskDialogComponent", () => {
 			onCancel,
 			onPrompt,
 		});
-		expect(render(component)).toContain("Space toggle · Enter next");
+		expect(render(component)).toContain("空格 切换 · 回车 下一题");
 
 		// Space toggles Option A; Enter on the plain option row confirms and
 		// advances to Q2 instead of submitting the whole dialog (#8265 review).
@@ -935,7 +935,7 @@ describe("AskDialogComponent", () => {
 			expect(stripVTControlCharacters(line).length).toBeLessThanOrEqual((process.stdout.columns ?? 80) - 4);
 		}
 		// Must contain the prefix and a truncation indicator on the last line.
-		expect(stripVTControlCharacters(title)).toContain("Custom answer:");
+		expect(stripVTControlCharacters(title)).toContain("自定义答案：");
 	});
 
 	it("bounds note prompt title for long multi-line questions", async () => {
@@ -966,7 +966,7 @@ describe("AskDialogComponent", () => {
 		// Title must be bounded to at most MAX_PROMPT_TITLE_ROWS lines.
 		expect(lines.length).toBeLessThanOrEqual(3);
 		// The multi-line question must be flattened (no raw newlines expanding rows).
-		expect(stripVTControlCharacters(title)).toContain("Note for Option A:");
+		expect(stripVTControlCharacters(title)).toContain("备注：Option A");
 	});
 
 	it("scrolls question rows when cursor moves below the viewport", () => {
@@ -987,7 +987,7 @@ describe("AskDialogComponent", () => {
 			const initial = renderAt(60);
 			expect(initial).toContain("Option 01");
 			expect(initial).not.toContain("Option 30");
-			expect(initial).toContain("↓ scroll");
+			expect(initial).toContain("↓ 滚动");
 
 			for (let i = 0; i < 28; i++) component.handleInput(DOWN);
 			const scrolled = renderAt(60);
@@ -1015,7 +1015,7 @@ describe("AskDialogComponent", () => {
 			onCancel: vi.fn(),
 			onPrompt: vi.fn(),
 		});
-		expect(render(component)).toContain("Space toggle · Enter submit");
+		expect(render(component)).toContain("空格 切换 · 回车 提交");
 
 		// Space selects Option A; Enter submits right away — no need to
 		// discover the Submit tab (issue #8252).
@@ -1148,7 +1148,7 @@ describe("AskDialogComponent", () => {
 			expect(out).toContain("PgUp/PgDn");
 			expect(out).toContain("Tab/←/→");
 			expect(out).not.toContain(" tabs");
-			expect(out).toContain("Ctrl+G cancel");
+			expect(out).toContain("Ctrl+G 取消");
 			setKeybindings(
 				KeybindingsManager.inMemory({
 					"tui.select.cancel": "ctrl+g",
@@ -1158,7 +1158,7 @@ describe("AskDialogComponent", () => {
 			);
 			const remapped = render(component);
 			expect(remapped).toContain("Ctrl+U/Ctrl+D");
-			expect(remapped).toContain("Ctrl+G cancel");
+			expect(remapped).toContain("Ctrl+G 取消");
 		} finally {
 			if (originalRows) Object.defineProperty(process.stdout, "rows", originalRows);
 			else Reflect.deleteProperty(process.stdout, "rows");
@@ -1193,7 +1193,7 @@ describe("AskDialogComponent", () => {
 			expect(out).not.toContain("PREVIEW-MIDDLE");
 			expect(out).not.toContain("PREVIEW-LAST");
 			expect(out).not.toContain("PgUp/PgDn");
-			expect(out).toContain("↓ scroll");
+			expect(out).toContain("↓ 滚动");
 			component.handleInput(DOWN);
 			for (let page = 0; page < 4; page++) component.handleInput(PAGE_DOWN);
 			out = render(component);
@@ -1201,7 +1201,7 @@ describe("AskDialogComponent", () => {
 			expect(out).toContain("PREVIEW-MIDDLE");
 			component.handleInput(DOWN);
 			out = render(component);
-			expect(out).toContain("Other (type your own)");
+			expect(out).toContain("其他（自行输入）");
 			expect(out).not.toContain("PREVIEW-MIDDLE");
 			expect(out).not.toContain("PgUp/PgDn");
 			component.handleInput(UP);
@@ -1213,10 +1213,10 @@ describe("AskDialogComponent", () => {
 				out = render(component);
 			}
 			expect(out).toContain("PREVIEW-LAST");
-			expect(out).not.toContain("Other (type your own)");
+			expect(out).not.toContain("其他（自行输入）");
 			component.handleInput(DOWN);
 			out = render(component);
-			expect(out).toContain("Other (type your own)");
+			expect(out).toContain("其他（自行输入）");
 			component.handleInput(UP);
 			out = render(component);
 			for (let page = 0; page < 10; page++) {
@@ -1250,13 +1250,13 @@ describe("AskDialogComponent", () => {
 			expect(out).toContain("PREVIEW-SHORT-FIRST");
 			expect(out).toContain("PREVIEW-SHORT-LAST");
 			expect(out).not.toContain("PgUp/PgDn");
-			expect(out).toMatch(/[↓↑↕] scroll/);
+			expect(out).toMatch(/[↓↑↕] 滚动/);
 			component.handleInput(PAGE_DOWN);
 			out = render(component);
 			expect(out).toContain("PREVIEW-SHORT-FIRST");
 			expect(out).toContain("PREVIEW-SHORT-LAST");
 			expect(out).not.toContain("PgUp/PgDn");
-			expect(out).toMatch(/[↓↑↕] scroll/);
+			expect(out).toMatch(/[↓↑↕] 滚动/);
 		} finally {
 			if (originalRows) Object.defineProperty(process.stdout, "rows", originalRows);
 			else Reflect.deleteProperty(process.stdout, "rows");

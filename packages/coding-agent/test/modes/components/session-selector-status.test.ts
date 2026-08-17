@@ -55,11 +55,11 @@ describe("SessionSelectorComponent status labels", () => {
 			createSession("pending", "pending"),
 		]);
 
-		expect(rendered).toContain(`${theme.status.success} done`);
-		expect(rendered).toContain(`${theme.status.warning} interrupted`);
-		expect(rendered).toContain(`${theme.status.aborted} aborted`);
-		expect(rendered).toContain(`${theme.status.error} error`);
-		expect(rendered).toContain(`${theme.status.pending} pending`);
+		expect(rendered).toContain(`${theme.status.success} 已完成`);
+		expect(rendered).toContain(`${theme.status.warning} 已中断`);
+		expect(rendered).toContain(`${theme.status.aborted} 已中止`);
+		expect(rendered).toContain(`${theme.status.error} 错误`);
+		expect(rendered).toContain(`${theme.status.pending} 进行中`);
 	});
 
 	it("draws the glyph from the active symbol preset (nerdfont / unicode / ascii)", async () => {
@@ -68,7 +68,7 @@ describe("SessionSelectorComponent status labels", () => {
 		for (const preset of ["unicode", "nerd", "ascii"] as const) {
 			await initTheme(false, preset);
 			// The rendered glyph tracks whatever the active preset resolves.
-			expect(renderPlain(sessions)).toContain(`${theme.status.success} done`);
+			expect(renderPlain(sessions)).toContain(`${theme.status.success} 已完成`);
 			glyphs.add(theme.status.success);
 		}
 		// Each preset maps to a distinct glyph, so the status is genuinely
@@ -83,7 +83,7 @@ describe("SessionSelectorComponent status labels", () => {
 		expect(rendered).toContain("Session a");
 		expect(rendered).toContain("Session b");
 		// …but no status label is emitted for either row.
-		for (const label of ["done", "interrupted", "aborted", "error", "pending"]) {
+		for (const label of ["已完成", "已中断", "已中止", "错误", "进行中"]) {
 			expect(rendered).not.toContain(label);
 		}
 	});

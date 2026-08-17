@@ -100,7 +100,7 @@ describe("ModelPicker", () => {
 			picker: { currentContextTokens: 6000 },
 		});
 
-		expect(normalize(picker.render(220))).toContain("Session-only switch");
+		expect(normalize(picker.render(220))).toContain("仅切换本会话");
 
 		picker.handleInput("small");
 		const rendered = normalize(picker.render(220));

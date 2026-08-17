@@ -63,8 +63,8 @@ describe("issue #1909: tree-selector empty-state messaging", () => {
 
 		// Filter-hiding hint and recovery key must both be present so the user knows
 		// the panel isn't broken and can widen the view without leaving the screen.
-		expect(text).toContain("hidden by the current filter");
-		expect(text).toContain("[default]");
+		expect(text).toContain("被当前过滤器隐藏");
+		expect(text).toContain("[默认]");
 		expect(text.toLowerCase()).toContain("alt+a");
 		// Total count must reflect the real flatNodes count, not 0/0 (otherwise the
 		// "filter hides things" framing is unconvincing).
@@ -83,10 +83,10 @@ describe("issue #1909: tree-selector empty-state messaging", () => {
 		selector.handleInput("z");
 		const text = renderSelector(selector);
 
-		expect(text).toContain('No entries match search "z"');
+		expect(text).toContain('没有条目匹配搜索 "z"');
 		expect(text.toLowerCase()).toContain("backspace");
 		// Must NOT misattribute the empty result to the filter mode.
-		expect(text).not.toContain("hidden by the current filter");
+		expect(text).not.toContain("被当前过滤器隐藏");
 	});
 
 	it("falls back to the bare 'No entries found' line when the tree is genuinely empty", () => {
@@ -99,9 +99,9 @@ describe("issue #1909: tree-selector empty-state messaging", () => {
 		);
 		const text = renderSelector(selector);
 
-		expect(text).toContain("No entries found");
+		expect(text).toContain("未找到条目");
 		expect(text).toContain("(0/0)");
 		// Don't tell the user to widen the filter when there's nothing to widen to.
-		expect(text).not.toContain("hidden by the current filter");
+		expect(text).not.toContain("被当前过滤器隐藏");
 	});
 });

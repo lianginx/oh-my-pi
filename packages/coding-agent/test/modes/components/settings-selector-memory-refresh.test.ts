@@ -153,14 +153,14 @@ describe("SettingsSelectorComponent memory tab", () => {
 			comp
 				.render(120)
 				.map(strip)
-				.find(line => /\d+ match/.test(line)) ?? "";
+				.find(line => /\d+ 个匹配/.test(line)) ?? "";
 		expect(banner).toContain(" b ");
-		expect(searching).toMatch(/\d+ match/);
+		expect(searching).toMatch(/\d+ 个匹配/);
 
 		// First Escape exits search mode without closing the panel.
 		comp.handleInput("\x1b");
 		expect(cancelCount).toBe(0);
-		expect(comp.render(120).join("\n")).not.toContain("matches");
+		expect(comp.render(120).join("\n")).not.toContain("个匹配");
 
 		comp.handleInput("\x1b");
 		expect(cancelCount).toBe(1);
@@ -191,7 +191,7 @@ describe("SettingsSelectorComponent memory tab", () => {
 			comp
 				.render(120)
 				.map(strip)
-				.find(line => /\d+ match/.test(line)) ?? "";
+				.find(line => /\d+ 个匹配/.test(line)) ?? "";
 
 		// alt+backspace deletes the trailing word from the query.
 		for (const ch of "image provider") comp.handleInput(ch);
@@ -216,14 +216,14 @@ describe("SettingsSelectorComponent memory tab", () => {
 		focusMemoryTab(comp);
 
 		comp.handleInput("\n");
-		expect(comp.render(120).join("\n")).toContain("Esc to go back");
+		expect(comp.render(120).join("\n")).toContain("Esc 返回");
 
 		comp.handleInput("\x1b");
 		const afterBack = comp.render(120).join("\n");
 		expect(cancelCount).toBe(0);
 		expect(afterBack).toContain("Memory Backend");
-		expect(afterBack).toContain("Esc to close");
-		expect(afterBack).not.toContain("Esc to go back");
+		expect(afterBack).toContain("Esc 关闭");
+		expect(afterBack).not.toContain("Esc 返回");
 
 		comp.handleInput("\x1b");
 		expect(cancelCount).toBe(1);

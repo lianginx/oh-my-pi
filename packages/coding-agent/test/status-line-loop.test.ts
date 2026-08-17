@@ -60,7 +60,7 @@ describe("status line loop mode segment", () => {
 			createContext({ state: "waiting", limit: { kind: "iterations", initial: 10, remaining: 10 } }),
 		);
 
-		expect(Bun.stripANSI(rendered.content)).toBe(withIcon(theme.icon.loop, "Loop waiting 10/10"));
+		expect(Bun.stripANSI(rendered.content)).toBe(withIcon(theme.icon.loop, "循环 waiting 10/10"));
 	});
 
 	it("shows the live remaining duration while a loop is running", () => {
@@ -74,14 +74,14 @@ describe("status line loop mode segment", () => {
 			}),
 		);
 
-		expect(Bun.stripANSI(rendered.content)).toBe(withIcon(theme.icon.loop, "Loop running 1m30s left"));
+		expect(Bun.stripANSI(rendered.content)).toBe(withIcon(theme.icon.loop, "循环 running 1m30s 剩余"));
 	});
 
 	it("distinguishes a paused loop from an active loop", () => {
 		const rendered = renderSegment("mode", createContext({ state: "paused" }));
 		const icon = theme.icon.pause || theme.icon.loop;
 
-		expect(Bun.stripANSI(rendered.content)).toBe(withIcon(icon, "Loop paused"));
-		expect(rendered.content).toBe(theme.fg("warning", withIcon(icon, "Loop paused")));
+		expect(Bun.stripANSI(rendered.content)).toBe(withIcon(icon, "循环 paused"));
+		expect(rendered.content).toBe(theme.fg("warning", withIcon(icon, "循环 paused")));
 	});
 });

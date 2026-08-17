@@ -91,7 +91,7 @@ describe("StatusLineComponent", () => {
 		const border = statusLine.getTopBorder(100);
 		// SGR codes might be included, so we check if the stripped content contains "Prewalk"
 		const stripped = border.content.replace(/\x1b\[[0-9;]*m/g, "");
-		expect(stripped).toContain("Prewalk");
+		expect(stripped).toContain("预扫描");
 	});
 	it("renders primary and advisor costs separately", () => {
 		const statusLine = new StatusLineComponent(
@@ -103,7 +103,7 @@ describe("StatusLineComponent", () => {
 		);
 
 		const stripped = statusLine.getTopBorder(120).content.replace(/\x1b\[[0-9;]*m/g, "");
-		expect(stripped).toContain("$2.67 (sub) + $0.41 (adv)");
+		expect(stripped).toContain("$2.67 （订阅） + $0.41 （顾问）");
 	});
 
 	it("omits advisor cost when the advisor has never been active", () => {
@@ -115,7 +115,7 @@ describe("StatusLineComponent", () => {
 		);
 
 		const stripped = statusLine.getTopBorder(120).content.replace(/\x1b\[[0-9;]*m/g, "");
-		expect(stripped).toContain("$2.67 (sub)");
+		expect(stripped).toContain("$2.67 （订阅）");
 		expect(stripped).not.toContain("(adv)");
 	});
 });

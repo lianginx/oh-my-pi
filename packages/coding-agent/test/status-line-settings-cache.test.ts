@@ -166,7 +166,7 @@ describe("StatusLineComponent effective settings cache", () => {
 		component.setSubagentCount(2);
 
 		const content = stripVTControlCharacters(component.getTopBorder(120).content);
-		expect(content).toContain("2 agents");
+		expect(content).toContain("2 代理");
 		expect(content).not.toContain("running");
 	});
 
@@ -176,7 +176,7 @@ describe("StatusLineComponent effective settings cache", () => {
 		expect(component.getTopBorder(80).content).toBe("");
 
 		component.setPlanModeStatus({ enabled: true, paused: false });
-		expect(stripVTControlCharacters(component.getTopBorder(80).content)).toContain("Plan");
+		expect(stripVTControlCharacters(component.getTopBorder(80).content)).toContain("计划");
 		expect(component.getEffectiveSettingsForTest()).toBe(effective);
 
 		component.setHookStatus("hook", "hook running");
