@@ -18,7 +18,7 @@ export class ErrorBannerComponent extends Container {
 		super();
 		const lines = getPreviewLines(message, MAX_BANNER_LINES, TRUNCATE_LENGTHS.LINE);
 		if (lines.length === 0) {
-			lines.push("Unknown error");
+			lines.push("未知错误");
 		}
 
 		this.addChild(new Spacer(1));
@@ -27,7 +27,7 @@ export class ErrorBannerComponent extends Container {
 		for (const line of lines.slice(1)) {
 			this.addChild(new Text(theme.fg("error", `  ${line}`), 1, 0));
 		}
-		this.addChild(new Text(theme.fg("dim", "Dismissed when you send your next message."), 1, 0));
+		this.addChild(new Text(theme.fg("dim", "发送下一条消息后此提示将消失。"), 1, 0));
 		this.addChild(new DynamicBorder(str => theme.fg("error", str)));
 	}
 }

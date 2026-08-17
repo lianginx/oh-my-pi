@@ -1676,7 +1676,7 @@ export class StatusLineComponent implements Component {
 
 	#subagentBadgeText(): string | undefined {
 		if (this.#subagentCount === 0) return undefined;
-		const noun = this.#subagentCount === 1 ? "agent" : "agents";
+		const noun = this.#subagentCount === 1 ? "代理" : "代理";
 		return theme.fg("statusLineSubagents", `${theme.icon.agents} ${this.#subagentCount} ${noun}`);
 	}
 

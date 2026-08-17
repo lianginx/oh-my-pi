@@ -56,10 +56,10 @@ const MIN_VISIBLE = 5;
 /** Fraction of the terminal height the floating overlay occupies. */
 const HEIGHT_FRACTION = 0.4;
 
-const STATUS_HINT = "Session-only switch — role models stay unchanged";
-const QUICK_ROLE_STATUS_HINT = "Quick role switch — applies its model and thinking for this session";
-const FOOTER_HINT = "↑/↓ models · Enter use for this session · type to search · @ quick roles · Esc close";
-const QUICK_ROLE_FOOTER_HINT = "↑/↓ roles · Enter apply role model · type to search · Esc close";
+const STATUS_HINT = "仅切换本会话 — 角色模型保持不变";
+const QUICK_ROLE_STATUS_HINT = "快速角色切换 — 仅对本会话应用其模型与思考设置";
+const FOOTER_HINT = "↑/↓ 模型 · Enter 本会话使用 · 输入搜索 · @ 快速角色 · Esc 关闭";
+const QUICK_ROLE_FOOTER_HINT = "↑/↓ 角色 · Enter 应用角色模型 · 输入搜索 · Esc 关闭";
 
 /**
  * The alt+p picker component. Hosted as a non-fullscreen bottom-anchored
@@ -102,7 +102,7 @@ export class ModelPickerComponent implements Component {
 		this.#browser = new ModelBrowser(settings, {
 			currentContextTokens: options.currentContextTokens,
 			markOverContext: true,
-			emptyText: () => (this.#roleMode ? "  No quick roles in the Ctrl+P cycle" : undefined),
+			emptyText: () => (this.#roleMode ? "  Ctrl+P 循环中没有快速角色" : undefined),
 		});
 		this.#browser.onActivate = item => {
 			const quickRole = this.#quickRoles.get(item.selector);
@@ -225,7 +225,7 @@ export class ModelPickerComponent implements Component {
 			: theme.fg("muted", ` ${this.#roleMode ? QUICK_ROLE_STATUS_HINT : STATUS_HINT}`);
 
 		const out: string[] = [];
-		out.push(topBorder(width, "Switch Model"));
+		out.push(topBorder(width, "切换模型"));
 		out.push(row(status, width));
 		for (const line of this.#browser.render(inner)) {
 			out.push(row(line, width));

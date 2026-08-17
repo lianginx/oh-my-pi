@@ -30,15 +30,15 @@ import { HookSelectorComponent } from "./hook-selector";
 function formatSessionStatus(status: SessionStatus | undefined): string | undefined {
 	switch (status) {
 		case "complete":
-			return theme.fg("success", `${theme.status.success} done`);
+			return theme.fg("success", `${theme.status.success} 已完成`);
 		case "interrupted":
-			return theme.fg("warning", `${theme.status.warning} interrupted`);
+			return theme.fg("warning", `${theme.status.warning} 已中断`);
 		case "aborted":
-			return theme.fg("muted", `${theme.status.aborted} aborted`);
+			return theme.fg("muted", `${theme.status.aborted} 已中止`);
 		case "error":
-			return theme.fg("error", `${theme.status.error} error`);
+			return theme.fg("error", `${theme.status.error} 错误`);
 		case "pending":
-			return theme.fg("accent", `${theme.status.pending} pending`);
+			return theme.fg("accent", `${theme.status.pending} 进行中`);
 		default:
 			return undefined;
 	}
@@ -529,11 +529,11 @@ class SessionList implements Component {
 		if (this.#filteredSessions.length === 0) {
 			if (this.#showCwd) {
 				// "All" scope - no sessions anywhere that match filter
-				lines.push(truncateToWidth(theme.fg("muted", "  No sessions found"), width));
+				lines.push(truncateToWidth(theme.fg("muted", "  未找到会话"), width));
 			} else {
 				// "Current folder" scope - hint to try "all"
 				lines.push(
-					truncateToWidth(theme.fg("muted", "  No sessions in current folder. Press Tab to view all."), width),
+					truncateToWidth(theme.fg("muted", "  当前文件夹中没有会话。按 Tab 查看所有项目。"), width),
 				);
 			}
 			return lines;
@@ -547,11 +547,11 @@ class SessionList implements Component {
 			const diffHours = Math.floor(diffMs / 3600000);
 			const diffDays = Math.floor(diffMs / 86400000);
 
-			if (diffMins < 1) return "just now";
-			if (diffMins < 60) return `${diffMins} minute${diffMins !== 1 ? "s" : ""} ago`;
-			if (diffHours < 24) return `${diffHours} hour${diffHours !== 1 ? "s" : ""} ago`;
-			if (diffDays === 1) return "1 day ago";
-			if (diffDays < 7) return `${diffDays} days ago`;
+			if (diffMins < 1) return "刚刚";
+			if (diffMins < 60) return `${diffMins} 分钟前`;
+			if (diffHours < 24) return `${diffHours} 小时前`;
+			if (diffDays === 1) return "1 天前";
+			if (diffDays < 7) return `${diffDays} 天前`;
 
 			return date.toLocaleDateString();
 		};
@@ -614,7 +614,7 @@ class SessionList implements Component {
 				metadata += ` ${dot} ${status}`;
 			}
 			if (session.parentSessionPath) {
-				metadata += ` ${dot} ${dim(`${theme.icon.branch} fork`)}`;
+				metadata += ` ${dot} ${dim(`${theme.icon.branch} 分支`)}`;
 			}
 			if (this.#showCwd && session.cwd) {
 				metadata += ` ${dot} ${dim(shortenPath(session.cwd))}`;
@@ -798,7 +798,7 @@ export class SessionSelectorComponent extends Container {
 		this.#globalSessions = options.allSessions ?? null;
 		this.#getTerminalRows = options.getTerminalRows ?? (() => 24);
 		this.#fillHeight = options.fillHeight ?? false;
-		this.#title = options.title ?? "Resume Session";
+		this.#title = options.title ?? "恢复会话";
 		this.#scopeLabel = options.scopeLabel;
 		// Add header
 		this.addChild(new Spacer(1));
@@ -847,7 +847,7 @@ export class SessionSelectorComponent extends Container {
 
 	#headerLabel(): string {
 		if (this.#scopeLabel === false) return theme.bold(this.#title);
-		const scopeLabel = this.#scopeLabel ?? (this.#scope === "all" ? "all projects" : "current folder");
+		const scopeLabel = this.#scopeLabel ?? (this.#scope === "all" ? "所有项目" : "当前文件夹");
 		return `${theme.bold(this.#title)} ${theme.fg("muted", `(${scopeLabel})`)}`;
 	}
 
@@ -864,7 +864,7 @@ export class SessionSelectorComponent extends Container {
 				if (!this.#loadAllSessions) return;
 				this.#toggling = true;
 				this.#messageContainer.clear();
-				this.#messageContainer.addChild(new Text(theme.fg("muted", "  Loading all projects…"), 1, 0));
+				this.#messageContainer.addChild(new Text(theme.fg("muted", "  正在加载所有项目…"), 1, 0));
 				this.#onRequestRender?.();
 				try {
 					global = await this.#loadAllSessions();
@@ -932,10 +932,10 @@ export class SessionSelectorComponent extends Container {
 			this.#onRequestRender?.();
 		};
 		this.#confirmationDialog = new HookSelectorComponent(
-			`Delete session?\n${displayName}`,
-			["Yes", "No"],
+			`删除会话？\n${displayName}`,
+			["是", "否"],
 			async (option: string) => {
-				if (option === "Yes" && this.#onDelete) {
+				if (option === "是" && this.#onDelete) {
 					this.#clearError();
 					try {
 						const deleted = await this.#onDelete(session);
@@ -991,8 +991,8 @@ export class SessionSelectorComponent extends Container {
 
 	/** Blank · keybinding hint · bottom border. Rendered by {@link render}. */
 	#footerLines(width: number): string[] {
-		const scopeHint = this.#scope === "all" ? "current folder" : "all projects";
-		const hint = theme.fg("muted", `  [Del/⌫ delete · Enter select · Tab ${scopeHint} · Esc cancel]`);
+		const scopeHint = this.#scope === "all" ? "当前文件夹" : "所有项目";
+		const hint = theme.fg("muted", `  [Del/⌫ 删除 · Enter 选择 · Tab ${scopeHint} · Esc 取消]`);
 		return ["", hint, "", ...this.#bottomBorder.render(width)];
 	}
 

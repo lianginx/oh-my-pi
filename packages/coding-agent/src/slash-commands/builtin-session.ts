@@ -140,23 +140,23 @@ async function handleSessionPinCommand(
 export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	{
 		name: "todo",
-		description: "View or modify the agent's todo list",
+		description: "查看或修改代理的待办列表",
 		acpDescription: "Manage todos",
 		acpInputHint: "<subcommand>",
 		subcommands: [
-			{ name: "edit", description: "Open todos in $EDITOR (Markdown round-trip)" },
-			{ name: "copy", description: "Copy todos as Markdown to clipboard" },
-			{ name: "export", description: "Write todos as Markdown to a file (default: TODO.md)", usage: "[<path>]" },
-			{ name: "import", description: "Replace todos from a Markdown file (default: TODO.md)", usage: "[<path>]" },
+			{ name: "edit", description: "在 $EDITOR 中打开待办（Markdown 往返）" },
+			{ name: "copy", description: "将待办以 Markdown 复制到剪贴板" },
+			{ name: "export", description: "将待办以 Markdown 写入文件（默认：TODO.md）", usage: "[<path>]" },
+			{ name: "import", description: "从 Markdown 文件替换待办（默认：TODO.md）", usage: "[<path>]" },
 			{
 				name: "append",
-				description: "Append a task; phase fuzzy-matched or auto-created",
+				description: "追加任务；阶段模糊匹配或自动创建",
 				usage: "[<phase>] <task...>",
 			},
-			{ name: "start", description: "Mark task in_progress (fuzzy-matched)", usage: "<task>" },
-			{ name: "done", description: "Mark task/phase/all completed (fuzzy-matched)", usage: "[<task|phase>]" },
-			{ name: "drop", description: "Mark task/phase/all abandoned (fuzzy-matched)", usage: "[<task|phase>]" },
-			{ name: "rm", description: "Remove task/phase/all (fuzzy-matched)", usage: "[<task|phase>]" },
+			{ name: "start", description: "将任务标记为 in_progress（模糊匹配）", usage: "<task>" },
+			{ name: "done", description: "将任务/阶段/全部标记为已完成（模糊匹配）", usage: "[<task|phase>]" },
+			{ name: "drop", description: "将任务/阶段/全部标记为已放弃（模糊匹配）", usage: "[<task|phase>]" },
+			{ name: "rm", description: "移除任务/阶段/全部（模糊匹配）", usage: "[<task|phase>]" },
 		],
 		allowArgs: true,
 		getTuiAutocompleteDescription: runtime => {
@@ -175,15 +175,15 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "session",
-		description: "Session management commands",
+		description: "会话管理命令",
 		acpDescription: "Show or configure the current session",
 		acpInputHint: "[info|delete|pin [account]]",
 		subcommands: [
-			{ name: "info", description: "Show session info and stats" },
-			{ name: "delete", description: "Delete current session and return to selector" },
+			{ name: "info", description: "显示会话信息与统计" },
+			{ name: "delete", description: "删除当前会话并返回选择器" },
 			{
 				name: "pin",
-				description: "Pin the current provider to a stored OAuth account",
+				description: "将当前提供商固定到已存储的 OAuth 账户",
 				usage: "[account]",
 			},
 		],
@@ -252,7 +252,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "jobs",
-		description: "Show async background jobs status",
+		description: "显示异步后台任务状态",
 		acpDescription: "Show background jobs",
 		getTuiAutocompleteDescription: runtime => {
 			const snapshot = runtime.ctx.session.getAsyncJobSnapshot({ recentLimit: 5 });
@@ -293,7 +293,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "usage",
-		description: "Show provider usage and limits",
+		description: "显示提供商用量与限制",
 		acpDescription: "Show token usage",
 		acpInputHint: "[show|reset [account|active]]",
 		subcommands: [
@@ -354,10 +354,10 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "changelog",
-		description: "Show changelog entries",
+		description: "显示变更日志条目",
 		acpDescription: "Show changelog",
 		acpInputHint: "[full]",
-		subcommands: [{ name: "full", description: "Show complete changelog" }],
+		subcommands: [{ name: "full", description: "显示完整变更日志" }],
 		allowArgs: true,
 		handle: async (command, runtime) => {
 			const changelogPath = getChangelogPath();
@@ -379,7 +379,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "hotkeys",
-		description: "Show all keyboard shortcuts",
+		description: "显示所有键盘快捷键",
 		handleTui: (_command, runtime) => {
 			runtime.ctx.handleHotkeysCommand();
 			runtime.ctx.editor.setText("");
@@ -387,7 +387,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "tools",
-		description: "Show tools currently visible to the agent",
+		description: "显示当前对代理可见的工具",
 		acpDescription: "Show available tools",
 		getTuiAutocompleteDescription: runtime => {
 			const active = runtime.ctx.session.getActiveToolNames().length;
@@ -415,7 +415,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "context",
-		description: "Show estimated context usage breakdown",
+		description: "显示估算的上下文用量明细",
 		acpDescription: "Show context usage",
 		getTuiAutocompleteDescription: runtime => {
 			const usage = runtime.ctx.session.getContextUsage();
@@ -434,7 +434,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	{
 		name: "extensions",
 		aliases: ["status"],
-		description: "Open Extension Control Center dashboard",
+		description: "打开扩展控制中心面板",
 		handleTui: (_command, runtime) => {
 			runtime.ctx.showExtensionsDashboard();
 			runtime.ctx.editor.setText("");
@@ -442,7 +442,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "agents",
-		description: "Open the agents hub (per-agent model, prewalk, and advisor)",
+		description: "打开代理中心（每代理模型、预检查与顾问）",
 		handleTui: (_command, runtime) => {
 			runtime.ctx.showAgentsDashboard();
 			runtime.ctx.editor.setText("");
@@ -450,7 +450,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "branch",
-		description: "Create a new branch from a previous message",
+		description: "从先前的消息创建新分支",
 		handleTui: (_command, runtime) => {
 			if (settings.get("doubleEscapeAction") === "tree") {
 				runtime.ctx.showTreeSelector();
@@ -462,7 +462,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "fork",
-		description: "Create a new fork from a previous message",
+		description: "从先前的消息创建新 fork",
 		handleTui: async (_command, runtime) => {
 			runtime.ctx.editor.setText("");
 			await runtime.ctx.handleForkCommand();
@@ -470,7 +470,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "tree",
-		description: "Navigate session tree (switch branches)",
+		description: "浏览会话树（切换分支）",
 		handleTui: (_command, runtime) => {
 			runtime.ctx.showTreeSelector();
 			runtime.ctx.editor.setText("");
@@ -478,7 +478,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "login",
-		description: "Login with OAuth provider",
+		description: "使用 OAuth 提供商登录",
 		inlineHint: "[provider|redirect URL]",
 		allowArgs: true,
 		getTuiAutocompleteDescription: runtime =>
@@ -530,7 +530,7 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "logout",
-		description: "Logout from OAuth provider",
+		description: "从 OAuth 提供商登出",
 		inlineHint: "[provider]",
 		allowArgs: true,
 		handleTui: (command, runtime) => {
@@ -552,35 +552,35 @@ export const BUILTIN_SESSION_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	},
 	{
 		name: "mcp",
-		description: "Manage MCP servers (add, list, remove, test)",
+		description: "管理 MCP 服务器（添加、列出、移除、测试）",
 		acpDescription: "Manage MCP servers",
 		inlineHint: "<subcommand>",
 		subcommands: [
 			{
 				name: "add",
-				description: "Add a new MCP server",
+				description: "添加新的 MCP 服务器",
 				usage: "<name> [--scope project|user] [--url <url>] [-- <command...>]",
 			},
-			{ name: "list", description: "List all configured MCP servers" },
-			{ name: "remove", description: "Remove an MCP server", usage: "<name> [--scope project|user]" },
-			{ name: "test", description: "Test connection to a server", usage: "<name>" },
-			{ name: "reauth", description: "Reauthorize OAuth for a server", usage: "<name>" },
-			{ name: "unauth", description: "Remove OAuth auth from a server", usage: "<name>" },
-			{ name: "enable", description: "Enable an MCP server", usage: "<name>" },
-			{ name: "disable", description: "Disable an MCP server", usage: "<name>" },
+			{ name: "list", description: "列出所有已配置的 MCP 服务器" },
+			{ name: "remove", description: "移除 MCP 服务器", usage: "<name> [--scope project|user]" },
+			{ name: "test", description: "测试与服务器的连接", usage: "<name>" },
+			{ name: "reauth", description: "重新为服务器授权 OAuth", usage: "<name>" },
+			{ name: "unauth", description: "移除服务器的 OAuth 授权", usage: "<name>" },
+			{ name: "enable", description: "启用 MCP 服务器", usage: "<name>" },
+			{ name: "disable", description: "禁用 MCP 服务器", usage: "<name>" },
 			{
 				name: "smithery-search",
-				description: "Search Smithery registry and deploy an MCP server",
+				description: "搜索 Smithery 注册表并部署 MCP 服务器",
 				usage: "<keyword> [--scope project|user] [--limit <1-100>] [--semantic]",
 			},
-			{ name: "smithery-login", description: "Login to Smithery and cache API key" },
-			{ name: "smithery-logout", description: "Remove cached Smithery API key" },
-			{ name: "reconnect", description: "Reconnect to a specific MCP server", usage: "<name>" },
-			{ name: "reload", description: "Force reload MCP runtime tools" },
-			{ name: "resources", description: "List available resources from connected servers" },
-			{ name: "prompts", description: "List available prompts from connected servers" },
-			{ name: "notifications", description: "Show notification capabilities and subscriptions" },
-			{ name: "help", description: "Show help message" },
+			{ name: "smithery-login", description: "登录 Smithery 并缓存 API 密钥" },
+			{ name: "smithery-logout", description: "移除缓存的 Smithery API 密钥" },
+			{ name: "reconnect", description: "重新连接到指定 MCP 服务器", usage: "<name>" },
+			{ name: "reload", description: "强制重载 MCP 运行时工具" },
+			{ name: "resources", description: "列出已连接服务器上的可用资源" },
+			{ name: "prompts", description: "列出已连接服务器上的可用提示词" },
+			{ name: "notifications", description: "显示通知能力与订阅" },
+			{ name: "help", description: "显示帮助信息" },
 		],
 		allowArgs: true,
 		handle: handleMcpAcp,

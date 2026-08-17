@@ -43,8 +43,7 @@ export class TodoReminderComponent extends Container {
 		this.#box.clear();
 
 		const count = this.todos.length;
-		const label = count === 1 ? "todo" : "todos";
-		const header = `${theme.icon.warning} ${count} incomplete ${label} - reminder ${this.attempt}/${this.maxAttempts}`;
+		const header = `${theme.icon.warning} ${count} 项未完成待办 — 提醒 ${this.attempt}/${this.maxAttempts}`;
 
 		this.#box.addChild(new Text(header, 0, 0));
 		this.#box.addChild(new Spacer(1));

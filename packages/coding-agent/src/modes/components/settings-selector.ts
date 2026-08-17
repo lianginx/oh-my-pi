@@ -95,7 +95,7 @@ class TextInputSubmenu extends Container {
 		this.addChild(this.#input);
 		this.addChild(new Spacer(1));
 		this.addChild(this.#error);
-		this.addChild(new Text(theme.fg("dim", "  Enter to save · Esc to cancel · Clear field to unset"), 0, 0));
+		this.addChild(new Text(theme.fg("dim", "  Enter 保存 · Esc 取消 · 清空字段以取消设置"), 0, 0));
 	}
 
 	handleInput(data: string): void {
@@ -134,7 +134,7 @@ class SelectSubmenu extends Container {
 		// Preview (if provided)
 		if (getPreview) {
 			this.addChild(new Spacer(1));
-			this.addChild(new Text(theme.fg("muted", "Preview:"), 0, 0));
+			this.addChild(new Text(theme.fg("muted", "预览："), 0, 0));
 			this.#previewText = new Text(getPreview(), 0, 0);
 			this.addChild(this.#previewText);
 		}
@@ -179,7 +179,7 @@ class SelectSubmenu extends Container {
 
 		// Hint
 		this.addChild(new Spacer(1));
-		this.addChild(new Text(theme.fg("dim", "  Enter to select · Esc to go back"), 0, 0));
+		this.addChild(new Text(theme.fg("dim", "  Enter 选择 · Esc 返回"), 0, 0));
 
 		// Footer (e.g. the snapcompact shape preview) below the interactive rows,
 		// so the list never shifts while browsing.
@@ -277,8 +277,8 @@ class MultiSelectSubmenu extends Container {
 
 		this.addChild(new Spacer(1));
 		const hint = this.ordered
-			? "  Enter/Space to toggle · ←/→ move · 1-9 place at position · Esc to go back"
-			: "  Enter/Space to toggle · Esc to go back";
+			? "  Enter/Space 切换 · ←/→ 移动 · 1-9 移到指定位置 · Esc 返回"
+			: "  Enter/Space 切换 · Esc 返回";
 		this.addChild(new Text(theme.fg("dim", hint), 0, 0));
 	}
 
@@ -366,13 +366,13 @@ class ProviderLimitsSubmenu extends Container {
 
 	#showProviderList(): void {
 		this.clear();
-		this.addChild(new Text(theme.bold(theme.fg("accent", "Max In-Flight Requests")), 0, 0));
+		this.addChild(new Text(theme.bold(theme.fg("accent", "最大并发请求数")), 0, 0));
 		this.addChild(new Spacer(1));
 		this.addChild(
 			new Text(
 				theme.fg(
 					"muted",
-					"Select a provider, enter a positive number to cap concurrent LLM requests, or clear it for unlimited.",
+					"选择一个提供商，输入正数以限制并发 LLM 请求数，或清空以不限制。",
 				),
 				0,
 				0,
@@ -386,13 +386,13 @@ class ProviderLimitsSubmenu extends Container {
 			return {
 				value: provider,
 				label: provider,
-				description: limit === undefined ? "Unlimited" : `Limit: ${limit}`,
+				description: limit === undefined ? "不限制" : `上限：${limit}`,
 			};
 		});
 		const clearItem: SelectItem[] =
 			Object.keys(limits).length === 0
 				? []
-				: [{ value: "__clear_all", label: "Clear all limits", description: "Make every provider unlimited" }];
+				: [{ value: "__clear_all", label: "清除所有限制", description: "让所有提供商不受限制" }];
 		const items = [...providerItems, ...clearItem];
 		this.#selectList = new SelectList(items, Math.min(Math.max(items.length, 1), 12), getSelectListTheme());
 		this.#selectList.onSelect = item => {
@@ -408,7 +408,7 @@ class ProviderLimitsSubmenu extends Container {
 		this.#selectList.onCancel = this.onCancel;
 		this.addChild(this.#selectList);
 		this.addChild(new Spacer(1));
-		this.addChild(new Text(theme.fg("dim", "  Enter to edit provider · Esc to go back"), 0, 0));
+		this.addChild(new Text(theme.fg("dim", "  Enter 编辑提供商 · Esc 返回"), 0, 0));
 	}
 
 	#showProviderEditor(provider: string): void {
@@ -417,8 +417,8 @@ class ProviderLimitsSubmenu extends Container {
 		this.#selectList = undefined;
 		this.addChild(
 			new TextInputSubmenu(
-				`Max In-Flight Requests: ${provider}`,
-				"Enter a positive number. Decimals round down. Clear the field to make this provider unlimited.",
+				`最大并发请求数: ${provider}`,
+				"输入正数。小数向下取整。清空该字段可使此提供商不受限制。",
 				limits[provider]?.toString() ?? "",
 				false,
 				value => {
@@ -480,7 +480,7 @@ function getSettingsTabs(): Tab[] {
 			const icon = theme.symbol(meta.icon as Parameters<typeof theme.symbol>[0]);
 			return { id, label: `${icon} ${meta.label}`, short: icon };
 		}),
-		{ id: "plugins", label: `${theme.icon.package} Plugins`, short: theme.icon.package },
+		{ id: "plugins", label: `${theme.icon.package} 插件`, short: theme.icon.package },
 	];
 }
 
@@ -610,22 +610,22 @@ export class SettingsSelectorComponent implements Component {
 
 	#footerHintText(): string {
 		if (this.#searchList) {
-			return "Enter to change · Tab to jump tabs · Esc to exit search";
+			return "Enter 修改 · Tab 切换标签页 · Esc 退出搜索";
 		}
 		if (this.#currentTabId === "plugins") {
-			return "Tab to switch tabs · Esc to close";
+			return "Tab 切换标签页 · Esc 关闭";
 		}
 		if (this.#currentList?.sectionFocused) {
-			return "↑/↓ to jump sections · Tab/Enter to settings · ←/→ to switch tabs · Esc to close";
+			return "↑/↓ 跳转分区 · Tab/Enter 进入设置 · ←/→ 切换标签页 · Esc 关闭";
 		}
-		const nav = this.#hasSectionJump ? "Tab to jump sections · ←/→ to switch tabs" : "Tab to switch tabs";
-		return `Enter/Space to change · ${nav} · Type to search · Esc to close`;
+		const nav = this.#hasSectionJump ? "Tab 跳转分区 · ←/→ 切换标签页" : "Tab 切换标签页";
+		return `Enter/Space 修改 · ${nav} · 输入搜索 · Esc 关闭`;
 	}
 
 	/** Single-line search banner: accent icon, editable query with live cursor, right-aligned match count. */
 	#renderSearchBanner(width: number): string {
 		const icon = theme.symbol("icon.search");
-		const countText = this.#searchMatchCount === 1 ? "1 match" : `${this.#searchMatchCount} matches`;
+		const countText = this.#searchMatchCount === 1 ? "1 个匹配" : `${this.#searchMatchCount} 个匹配`;
 		const rightWidth = visibleWidth(countText) + 1; // trailing margin
 		const prefix = ` ${theme.fg("accent", icon)} `;
 		// The input pads itself to exactly this width and keeps the cursor in view.
@@ -647,7 +647,7 @@ export class SettingsSelectorComponent implements Component {
 		const tabLines = this.#tabBar.render(innerWidth);
 		const searching = this.#searchList !== null;
 		const showPreview = !searching && this.#currentTabId === "appearance";
-		const previewLines = showPreview ? ["", theme.fg("muted", "Preview:"), this.#getStatusPreviewString()] : [];
+		const previewLines = showPreview ? ["", theme.fg("muted", "预览："), this.#getStatusPreviewString()] : [];
 
 		// Fixed chrome: top border, tabs, divider, [search row], divider, hint, bottom border.
 		const fixedRows = 1 + tabLines.length + 1 + (searching ? 1 : 0) + 1 + 1 + 1;
@@ -666,7 +666,7 @@ export class SettingsSelectorComponent implements Component {
 		}
 
 		const out: string[] = [];
-		out.push(topBorder(width, "Settings"));
+		out.push(topBorder(width, "设置"));
 		this.#tabRowStart = out.length;
 		this.#tabRowCount = tabLines.length;
 		for (const line of tabLines) {
@@ -772,7 +772,7 @@ export class SettingsSelectorComponent implements Component {
 			{
 				layout: "flat",
 				typeToSearch: false,
-				emptyText: "No matching settings",
+				emptyText: "未找到匹配的设置",
 				hint: "",
 			},
 		);
@@ -886,7 +886,7 @@ export class SettingsSelectorComponent implements Component {
 			empty.push({ id, label: `${icon} ${meta.label}`, short: icon, muted: true });
 		}
 		// Plugins hosts its own UI; it is not part of the schema-backed search.
-		empty.push({ id: "plugins", label: `${theme.icon.package} Plugins`, short: theme.icon.package, muted: true });
+		empty.push({ id: "plugins", label: `${theme.icon.package} 插件`, short: theme.icon.package, muted: true });
 		return [...matched, ...empty];
 	}
 
@@ -1164,7 +1164,7 @@ export class SettingsSelectorComponent implements Component {
 	#formatProviderLimitsValue(value: unknown): string {
 		const limits = normalizeProviderMaxInFlightRequests(value);
 		const entries = Object.entries(limits).sort(([a], [b]) => a.localeCompare(b));
-		if (entries.length === 0) return "Unlimited";
+		if (entries.length === 0) return "不限制";
 		return entries.map(([provider, limit]) => `${provider}: ${limit}`).join(", ");
 	}
 
@@ -1197,7 +1197,7 @@ export class SettingsSelectorComponent implements Component {
 
 	#formatMultiSelectValue(def: SettingDef & { type: "multiselect" }, value: unknown): string {
 		const ids = Array.isArray(value) ? value.filter((entry): entry is string => typeof entry === "string") : [];
-		if (ids.length === 0) return def.ordered ? "default" : "none";
+		if (ids.length === 0) return def.ordered ? "默认" : "无";
 		const labels = ids.map(id => def.options.find(option => option.value === id)?.label ?? id);
 		return def.ordered ? labels.join(" → ") : labels.join(", ");
 	}
@@ -1328,7 +1328,7 @@ export class SettingsSelectorComponent implements Component {
 		if (this.callbacks.getStatusLinePreview) {
 			return this.callbacks.getStatusLinePreview();
 		}
-		return theme.fg("dim", "(preview not available)");
+		return theme.fg("dim", "（预览不可用）");
 	}
 
 	/**

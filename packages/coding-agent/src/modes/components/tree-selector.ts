@@ -453,13 +453,13 @@ class TreeList implements Component {
 	#getFilterLabel(): string {
 		switch (this.#filterMode) {
 			case "no-tools":
-				return " [no-tools]";
+				return " [无工具]";
 			case "user-only":
-				return " [user]";
+				return " [仅用户]";
 			case "labeled-only":
-				return " [labeled]";
+				return " [带标签]";
 			case "all":
-				return " [all]";
+				return " [全部]";
 			default:
 				return "";
 		}
@@ -477,23 +477,23 @@ class TreeList implements Component {
 			//    `model_change` + `thinking_level_change` (both hidden by the default filter)
 			//    read as "broken /tree" — see #1909.
 			if (this.#flatNodes.length === 0) {
-				lines.push(truncateToWidth(theme.fg("muted", "  No entries found"), width));
+				lines.push(truncateToWidth(theme.fg("muted", "  未找到条目"), width));
 				lines.push(truncateToWidth(theme.fg("muted", `  (0/0)${this.#getFilterLabel()}`), width));
 			} else if (this.#searchQuery.length > 0) {
-				lines.push(truncateToWidth(theme.fg("muted", `  No entries match search "${this.#searchQuery}"`), width));
-				lines.push(truncateToWidth(theme.fg("muted", "  Press Backspace to clear the search"), width));
+				lines.push(truncateToWidth(theme.fg("muted", `  没有条目匹配搜索 "${this.#searchQuery}"`), width));
+				lines.push(truncateToWidth(theme.fg("muted", "  按 Backspace 清除搜索"), width));
 				lines.push(
 					truncateToWidth(theme.fg("muted", `  (0/${this.#flatNodes.length})${this.#getFilterLabel()}`), width),
 				);
 			} else {
-				const filterLabel = this.#getFilterLabel().trim() || "[default]";
+				const filterLabel = this.#getFilterLabel().trim() || "[默认]";
 				lines.push(
 					truncateToWidth(
-						theme.fg("muted", `  ${this.#flatNodes.length} entries hidden by the current filter ${filterLabel}`),
+						theme.fg("muted", `  ${this.#flatNodes.length} 个条目被当前过滤器隐藏 ${filterLabel}`),
 						width,
 					),
 				);
-				lines.push(truncateToWidth(theme.fg("muted", "  Press Alt+A to show all, Alt+D for default"), width));
+				lines.push(truncateToWidth(theme.fg("muted", "  按 Alt+A 显示全部，Alt+D 恢复默认"), width));
 				lines.push(
 					truncateToWidth(theme.fg("muted", `  (0/${this.#flatNodes.length})${this.#getFilterLabel()}`), width),
 				);
@@ -925,9 +925,9 @@ class SearchLine implements Component {
 	render(width: number): readonly string[] {
 		const query = this.treeList.getSearchQuery();
 		if (query) {
-			return [truncateToWidth(`  ${theme.fg("muted", "Search:")} ${theme.fg("accent", query)}`, width)];
+			return [truncateToWidth(`  ${theme.fg("muted", "搜索：")} ${theme.fg("accent", query)}`, width)];
 		}
-		return [truncateToWidth(`  ${theme.fg("muted", "Search:")}`, width)];
+		return [truncateToWidth(`  ${theme.fg("muted", "搜索：")}`, width)];
 	}
 
 	handleInput(_keyData: string): void {}
@@ -955,9 +955,9 @@ class LabelInput implements Component {
 		const lines: string[] = [];
 		const indent = "  ";
 		const availableWidth = width - indent.length;
-		lines.push(truncateToWidth(`${indent}${theme.fg("muted", "Label (empty to remove):")}`, width));
+		lines.push(truncateToWidth(`${indent}${theme.fg("muted", "标签（留空以移除）：")}`, width));
 		lines.push(...this.#input.render(availableWidth).map(line => truncateToWidth(`${indent}${line}`, width)));
-		lines.push(truncateToWidth(`${indent}${theme.fg("dim", "enter: save  esc: cancel")}`, width));
+		lines.push(truncateToWidth(`${indent}${theme.fg("dim", "enter: 保存  esc: 取消")}`, width));
 		return lines;
 	}
 
@@ -1006,12 +1006,12 @@ export class TreeSelectorComponent extends Container {
 
 		this.addChild(new Spacer(1));
 		this.addChild(new DynamicBorder());
-		this.addChild(new Text(theme.bold("  Session Tree"), 1, 0));
+		this.addChild(new Text(theme.bold("  会话树"), 1, 0));
 		this.addChild(
 			new TruncatedText(
 				theme.fg(
 					"muted",
-					"Enter: switch. Alt+↑/↓: previous/next turn. PgUp/PgDn (←/→): page. Home/End: first/last item. Shift+Enter: summarize & switch. Shift+L: label. Ctrl+O: filter. Alt+D/T/U/L/A: filter. Type to search",
+					"Enter: 切换 · Alt+↑/↓: 上一/下一轮对话 · PgUp/PgDn (←/→): 翻页 · Home/End: 首/末条目 · Shift+Enter: 摘要并切换 · Shift+L: 标签 · Ctrl+O: 过滤器 · Alt+D/T/U/L/A: 过滤模式 · 输入搜索",
 				),
 				0,
 				0,

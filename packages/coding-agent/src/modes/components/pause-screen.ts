@@ -53,10 +53,10 @@ const MIN_FULL_HEIGHT = 18;
 
 const TITLE = "P A U S E D";
 const BODY_LINES = [
-	"Main agent, subagents, and advisor hold at their next step.",
-	"In-flight calls finish; nothing new starts until you resume.",
+	"主代理、子代理与顾问将在下一步暂停。",
+	"进行中的调用会执行完毕；在你恢复之前不会启动新的任务。",
 ] as const;
-const RESUME_HINT = "esc · enter · space — resume";
+const RESUME_HINT = "esc · enter · space — 恢复";
 
 function centerLine(line: string, width: number): string {
 	const pad = Math.max(0, Math.floor((width - visibleWidth(line)) / 2));
@@ -88,8 +88,8 @@ export function renderPauseScreen(width: number, height: number, elapsedMs: numb
 		}
 		content.push(centerLine(theme.bold(theme.fg("accent", `▌▌ ${TITLE}`)), width));
 		content.push("");
-		content.push(centerLine(theme.fg("dim", `paused for ${formatClock(elapsedMs)}`), width));
-		content.push(centerLine(theme.fg("dim", "esc to resume"), width));
+		content.push(centerLine(theme.fg("dim", `已暂停 ${formatClock(elapsedMs)}`), width));
+		content.push(centerLine(theme.fg("dim", "esc 恢复"), width));
 	} else {
 		if (sessionName) {
 			content.push(centerLine(theme.bold(sessionName), width));
@@ -108,7 +108,7 @@ export function renderPauseScreen(width: number, height: number, elapsedMs: numb
 			content.push(centerLine(theme.fg("muted", line), width));
 		}
 		content.push("");
-		content.push(centerLine(theme.fg("dim", `paused for ${formatClock(elapsedMs)}`), width));
+		content.push(centerLine(theme.fg("dim", `已暂停 ${formatClock(elapsedMs)}`), width));
 		content.push("");
 		content.push(centerLine(theme.fg("dim", RESUME_HINT), width));
 	}
@@ -202,7 +202,7 @@ export async function runPauseScreen(host: PauseScreenHost): Promise<void> {
 		overlay.hide();
 		const heldMs = agentPauseGate.resume();
 		if (heldMs !== undefined) {
-			host.showStatus(`Resumed after ${formatDuration(heldMs)} — agents are running again.`);
+			host.showStatus(`已恢复 — 代理正在继续运行（暂停了 ${formatDuration(heldMs)}）。`);
 		}
 	}
 }

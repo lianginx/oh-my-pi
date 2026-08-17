@@ -51,18 +51,18 @@ function formatWorkspaceDirectories(runtime: SlashCommandRuntime, note?: string)
 export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> = [
 	{
 		name: "ssh",
-		description: "Manage SSH hosts (add, list, remove)",
+		description: "管理 SSH 主机（添加、列出、移除）",
 		acpDescription: "Manage SSH connections",
 		inlineHint: "<subcommand>",
 		subcommands: [
 			{
 				name: "add",
-				description: "Add an SSH host",
+				description: "添加 SSH 主机",
 				usage: "<name> --host <host> [--user <user>] [--port <port>] [--key <keyPath>] [--scope project|user]",
 			},
-			{ name: "list", description: "List all configured SSH hosts" },
-			{ name: "remove", description: "Remove an SSH host", usage: "<name> [--scope project|user]" },
-			{ name: "help", description: "Show help message" },
+			{ name: "list", description: "列出所有已配置的 SSH 主机" },
+			{ name: "remove", description: "移除 SSH 主机", usage: "<name> [--scope project|user]" },
+			{ name: "help", description: "显示帮助信息" },
 		],
 		allowArgs: true,
 		handle: handleSshAcp,
@@ -73,7 +73,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "new",
-		description: "Start a new session",
+		description: "开启新会话",
 		handleTui: async (_command, runtime) => {
 			runtime.ctx.editor.setText("");
 			await runtime.ctx.handleClearCommand();
@@ -112,7 +112,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "drop",
-		description: "Delete the current session and start a new one",
+		description: "删除当前会话并开启新会话",
 		handleTui: async (_command, runtime) => {
 			runtime.ctx.editor.setText("");
 			await runtime.ctx.handleDropCommand();
@@ -120,7 +120,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "compact",
-		description: "Manually compact the session context",
+		description: "手动压缩会话上下文",
 		acpDescription: "Compact the conversation",
 		subcommands: COMPACT_MODES.map(mode => ({
 			name: mode.name,
@@ -168,11 +168,11 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "shake",
-		description: "Drop heavy content from context (tool results, large blocks)",
+		description: "从上下文中移除重内容（工具结果、大型代码块）",
 		acpDescription: "Shake heavy content out of the conversation context",
 		subcommands: [
-			{ name: "elide", description: "Strip tool results + large blocks (default)" },
-			{ name: "images", description: "Strip image blocks" },
+			{ name: "elide", description: "剥离工具结果与大型代码块（默认）" },
+			{ name: "images", description: "剥离图片块" },
 		],
 		acpInputHint: "[elide|images]",
 		allowArgs: true,
@@ -195,7 +195,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "handoff",
-		description: "Hand off session context to a new session",
+		description: "将会话上下文移交给新会话",
 		inlineHint: "[focus instructions]",
 		allowArgs: true,
 		handleTui: async (command, runtime) => {
@@ -206,7 +206,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "resume",
-		description: "Resume a different session",
+		description: "恢复不同的会话",
 		inlineHint: "[session id|@claude|@codex]",
 		allowArgs: true,
 		handleTui: async (command, runtime) => {
@@ -236,7 +236,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "btw",
-		description: "Ask an ephemeral side question using the current session context",
+		description: "使用当前会话上下文提出一个临时旁路问题",
 		inlineHint: "<question>",
 		allowArgs: true,
 		handleTui: async (command, runtime) => {
@@ -247,7 +247,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "tan",
-		description: "Run a full background agent on tangential work",
+		description: "在边缘任务上运行一个完整的后台代理",
 		inlineHint: "<work>",
 		allowArgs: true,
 		handleTui: async (command, runtime) => {
@@ -258,7 +258,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "omfg",
-		description: "Forge a TTSR rule from a complaint to stop a recurring behavior",
+		description: "根据一条抱怨生成 TTSR 规则，以阻止重复行为",
 		inlineHint: "<complaint>",
 		allowArgs: true,
 		handleTui: async (command, runtime) => {
@@ -269,7 +269,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "retry",
-		description: "Retry the last failed agent turn",
+		description: "重试上一轮失败的代理回合",
 		handleTui: async (_command, runtime) => {
 			const didRetry = await runtime.ctx.session.retry();
 			if (!didRetry) {
@@ -280,7 +280,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "debug",
-		description: "Open debug tools selector",
+		description: "打开调试工具选择器",
 		handleTui: async (_command, runtime) => {
 			await runtime.ctx.showDebugSelector();
 			runtime.ctx.editor.setText("");
@@ -288,27 +288,27 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "memory",
-		description: "Inspect and operate memory maintenance",
+		description: "检查并操作内存维护",
 		acpDescription: "Manage memory",
 		acpInputHint: "<subcommand>",
 		subcommands: [
-			{ name: "view", description: "Show current memory injection payload" },
-			{ name: "stats", description: "Show memory backend statistics" },
-			{ name: "diagnose", description: "Run memory backend diagnostics" },
-			{ name: "clear", description: "Clear persisted memory data and artifacts" },
-			{ name: "reset", description: "Alias for clear" },
-			{ name: "enqueue", description: "Enqueue memory consolidation maintenance" },
-			{ name: "rebuild", description: "Alias for enqueue" },
-			{ name: "mm list", description: "List mental models on the active bank" },
-			{ name: "mm show", description: "Show one mental model (id required)" },
+			{ name: "view", description: "显示当前内存注入载荷" },
+			{ name: "stats", description: "显示内存后端统计" },
+			{ name: "diagnose", description: "运行内存后端诊断" },
+			{ name: "clear", description: "清除持久化的内存数据与工件" },
+			{ name: "reset", description: "clear 的别名" },
+			{ name: "enqueue", description: "入队内存整合维护任务" },
+			{ name: "rebuild", description: "enqueue 的别名" },
+			{ name: "mm list", description: "列出活动库中的心智模型" },
+			{ name: "mm show", description: "显示单个心智模型（需要 id）" },
 			{
 				name: "mm refresh",
-				description: "Refresh auto-refresh models bank-wide, or one model by id",
+				description: "刷新整个库的自动刷新模型，或按 id 刷新单个模型",
 			},
-			{ name: "mm history", description: "Diff the change history of a mental model" },
-			{ name: "mm seed", description: "Create any built-in mental models that are missing" },
-			{ name: "mm delete", description: "Delete a mental model from the bank (id required)" },
-			{ name: "mm reload", description: "Re-pull the cached <mental_models> block" },
+			{ name: "mm history", description: "对比心智模型的变更历史" },
+			{ name: "mm seed", description: "创建缺失的内置心智模型" },
+			{ name: "mm delete", description: "从库中删除心智模型（需要 id）" },
+			{ name: "mm reload", description: "重新拉取缓存的 <mental_models> 块" },
 		],
 		allowArgs: true,
 		handle: async (command, runtime) => {
@@ -387,7 +387,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "move",
-		description: "Move the current session to a different directory",
+		description: "将当前会话移动到其他目录",
 		acpDescription: "Move the current session to a different directory",
 		inlineHint: "[<path>]",
 		allowArgs: true,
@@ -432,7 +432,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "add-dir",
-		description: "Add a workspace directory to this session (multi-root)",
+		description: "向此会话添加工作区目录（多根）",
 		acpDescription: "Add a workspace directory to this session",
 		inlineHint: "<path>",
 		allowArgs: true,
@@ -463,7 +463,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "remove-dir",
-		description: "Remove a workspace directory from this session",
+		description: "从此会话移除工作区目录",
 		acpDescription: "Remove a workspace directory from this session",
 		inlineHint: "<path>",
 		allowArgs: true,
@@ -491,7 +491,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "dirs",
-		description: "List this session's workspace directories",
+		description: "列出此会话的工作区目录",
 		acpDescription: "List this session's workspace directories",
 		handle: async (_command, runtime) => {
 			await runtime.output(formatWorkspaceDirectories(runtime));
@@ -500,7 +500,7 @@ export const BUILTIN_LIFECYCLE_SLASH_COMMANDS: ReadonlyArray<SlashCommandSpec> =
 	},
 	{
 		name: "exit",
-		description: "Exit the application",
+		description: "退出应用",
 		handleTui: shutdownHandlerTui,
 	},
 ];
