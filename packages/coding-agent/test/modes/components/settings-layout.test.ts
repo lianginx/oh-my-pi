@@ -65,8 +65,8 @@ describe("settings layout", () => {
 
 		expect(def).toMatchObject({
 			type: "boolean",
-			label: "Native Terminal Progress",
-			group: "Display",
+			label: "原生终端进度",
+			group: "显示",
 		});
 	});
 
@@ -104,7 +104,7 @@ describe("settings layout", () => {
 			path: "providers.maxInFlightRequests",
 			type: "providerLimits",
 			tab: "providers",
-			group: "Services",
+			group: "服务",
 		});
 	});
 
@@ -115,15 +115,15 @@ describe("settings layout", () => {
 			path: "retry.fallbackChains",
 			type: "text",
 			tab: "model",
-			group: "Retry & Fallback",
-			label: "Retry Fallback Chains",
+			group: "重试与回退",
+			label: "重试回退链",
 		});
 		if (!def) throw new Error("retry.fallbackChains setting definition missing");
 
 		const description = def.description.toLowerCase();
 		expect(description).toContain("json");
-		expect(description).toContain("fallback");
-		expect(description).toContain("selector");
+		expect(description).toContain("回退");
+		expect(description).toContain("选择器");
 	});
 
 	it("exposes usage-aware fallback as an opt-in advanced policy", () => {
@@ -133,7 +133,7 @@ describe("settings layout", () => {
 			"retry.usageReservePct",
 			"retry.usageReservePolicy",
 		]);
-		expect(defs[0]).toMatchObject({ type: "boolean", label: "Usage-Aware Fallback" });
+		expect(defs[0]).toMatchObject({ type: "boolean", label: "用量感知回退" });
 		expect(defs[1]?.condition?.()).toBe(false);
 		expect(defs[2]?.condition?.()).toBe(false);
 		Settings.instance.set("retry.usageAwareFallback", true);
@@ -147,7 +147,7 @@ describe("settings layout", () => {
 		expect(def).toMatchObject({
 			type: "boolean",
 			label: "Ask",
-			group: "Available Tools",
+			group: "可用工具",
 		});
 	});
 });

@@ -71,9 +71,9 @@ describe("SettingsSelectorComponent memory tab", () => {
 		// Width 70 keeps the flat single-column layout (the wide split layout
 		// shows only the active section's rows, covered by the sidebar test).
 		const before = comp.render(70).join("\n");
-		expect(before).toContain("Memory Backend");
+		expect(before).toContain("记忆后端");
 		expect(before).not.toContain("Hindsight API URL");
-		expect(before).not.toContain("Hindsight API Token");
+		expect(before).not.toContain("Hindsight API 令牌");
 
 		// Memory Backend is the only visible row, so it's already selected at index 0.
 		// Enter opens the SelectSubmenu pre-positioned on "off"; navigate to "hindsight" (index 2) and confirm.
@@ -84,10 +84,10 @@ describe("SettingsSelectorComponent memory tab", () => {
 
 		expect(settings.get("memory.backend")).toBe("hindsight");
 		const after = comp.render(70).join("\n");
-		expect(after).toContain("Memory Backend");
+		expect(after).toContain("记忆后端");
 		expect(after).toContain("Hindsight API URL");
-		expect(after).toContain("Hindsight API Token");
-		expect(after).toContain("Hindsight Auto Recall");
+		expect(after).toContain("Hindsight API 令牌");
+		expect(after).toContain("Hindsight 自动回忆");
 	});
 
 	it("saves a pasted Hindsight API token from its settings row", () => {
@@ -97,7 +97,7 @@ describe("SettingsSelectorComponent memory tab", () => {
 
 		for (const ch of "hindsight api token") comp.handleInput(ch);
 		const row = comp.render(120).join("\n");
-		expect(row).toContain("Hindsight API Token");
+		expect(row).toContain("Hindsight API 令牌");
 		expect(row).toContain("••••••••");
 		expect(row).not.toContain("saved-secret-token");
 
@@ -134,7 +134,7 @@ describe("SettingsSelectorComponent memory tab", () => {
 
 		expect(settings.get("memory.backend")).toBe("off");
 		const after = comp.render(70).join("\n");
-		expect(after).toContain("Memory Backend");
+		expect(after).toContain("记忆后端");
 		expect(after).not.toContain("Hindsight API URL");
 		expect(after).not.toContain("Hindsight Auto Recall");
 	});
@@ -168,19 +168,20 @@ describe("SettingsSelectorComponent memory tab", () => {
 
 	it("puts the exact global settings search hit before incidental matches", () => {
 		const comp = createSelector();
-		for (const ch of "image provider") comp.handleInput(ch);
+		for (const ch of "为文本模型描述图片") comp.handleInput(ch);
 
 		const strip = (line: string): string => line.replace(/\x1b\[[0-9;]*m/g, "");
 		const rendered = comp.render(120).map(strip).join("\n");
-		const providersIndex = rendered.indexOf("Providers");
-		const appearanceIndex = rendered.indexOf("Appearance");
+		
+		const modelIndex = rendered.indexOf("模型");
+		const appearanceIndex = rendered.indexOf("外观");
 
-		expect(rendered).toContain("Image Provider");
-		expect(rendered).not.toContain("Include Model in Prompt");
-		expect(rendered).not.toContain("Service Tier");
-		expect(providersIndex).toBeGreaterThanOrEqual(0);
+		expect(rendered).toContain("为文本模型描述图片");
+		expect(rendered).not.toContain("在提示中包含模型名");
+		expect(rendered).not.toContain("服务层级");
+		expect(modelIndex).toBeGreaterThanOrEqual(0);
 		if (appearanceIndex >= 0) {
-			expect(appearanceIndex).toBeGreaterThan(providersIndex);
+			expect(appearanceIndex).toBeGreaterThan(modelIndex);
 		}
 	});
 
@@ -221,7 +222,7 @@ describe("SettingsSelectorComponent memory tab", () => {
 		comp.handleInput("\x1b");
 		const afterBack = comp.render(120).join("\n");
 		expect(cancelCount).toBe(0);
-		expect(afterBack).toContain("Memory Backend");
+		expect(afterBack).toContain("记忆后端");
 		expect(afterBack).toContain("Esc 关闭");
 		expect(afterBack).not.toContain("Esc 返回");
 

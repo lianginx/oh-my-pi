@@ -62,8 +62,8 @@ describe("multiselect settings (array-of-enum)", () => {
 		const comp = createSelector();
 		for (const ch of "web search provider order") comp.handleInput(ch);
 		const row = comp.render(120).join("\n");
-		expect(row).toContain("Web Search Provider Order");
-		expect(row).toContain("default");
+		expect(row).toContain("Web Search 提供商顺序");
+		expect(row).toContain("默认");
 
 		// Open the editor; Space toggles the first provider, Enter the second.
 		comp.handleInput("\n");
